@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cổng Thông Tin Điện Tử Thôn Tảo Dương - Xã Dân Hòa - TP. Hà Nội</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter & Merriweather -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gov: {
+                            red: '#C8102E',      // Đỏ cờ Quốc kỳ Việt Nam
+                            redDark: '#900C21',
+                            gold: '#FFCD00',     // Vàng ngôi sao
+                            goldDark: '#D4AF37',
+                            blue: '#1976D2',     // Xanh dịch vụ công / chuyển đổi số
+                            blueDark: '#0D47A1',
+                            green: '#2E7D32',    // Xanh nông thôn mới
+                            greenDark: '#1B5E20'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #C8102E; border-radius: 4px; }
+        .dark ::-webkit-scrollbar-track { background: #1f2937; }
+        .dark ::-webkit-scrollbar-thumb { background: #900C21; }
+        
+        .marquee-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 30s linear infinite;
+        }
+        .marquee-content:hover { animation-play-state: paused; }
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans leading-relaxed flex flex-col min-h-screen transition-colors duration-200" id="body-content">
+
+    <!-- ACCESSIBILITY & UTILITY TOP HEADER BAR -->
+    <div class="bg-gov-redDark text-white text-xs py-1 px-4 border-b border-yellow-500/30">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+            <!-- Left: National Emblem/Text & Real-time Clock -->
+            <div class="flex items-center space-x-3">
+                <span class="font-bold tracking-wide uppercase text-yellow-300 hidden sm:inline"><i class="fas fa-flag mr-1"></i> Cổng thông tin điện tử địa phương</span>
+                <span class="hidden sm:inline text-red-300">|</span>
+                <span id="realtime-clock" class="font-medium"><i class="far fa-clock mr-1"></i> Đang tải thời gian...</span>
+            </div>
+
+            <!-- Right: Font Resizer & Dark Mode Toggle & Hotline -->
+            <div class="flex items-center space-x-3 ml-auto sm:ml-0">
+                <!-- Font Resizing Controls -->
+                <div class="flex items-center bg-black/20 rounded px-2 py-0.5 space-x-1 border border-white/20">
+                    <span class="text-[10px] text-gray-200 mr-1">Cỡ chữ:</span>
+                    <button onclick="changeFontSize(-1)" title="Giảm cỡ chữ" class="hover:text-yellow-300 font-bold px-1">A-</button>
+                    <button onclick="resetFontSize()" title="Cỡ chữ mặc định" class="hover:text-yellow-300 px-1 text-[11px]">A</button>
+                    <button onclick="changeFontSize(1)" title="Tăng cỡ chữ" class="hover:text-yellow-300 font-bold px-1">A+</button>
+                </div>
+
+                <!-- Theme Toggle -->
+                <button onclick="toggleDarkMode()" class="bg-black/20 hover:bg-black/40 p-1.5 rounded-full border border-white/20 transition text-yellow-300" title="Chuyển chế độ Sáng/Tối">
+                    <i id="theme-icon" class="fas fa-moon"></i>
+                </button>
+
+                <a href="tel:0988123456" class="bg-yellow-400 hover:bg-yellow-500 text-gov-redDark px-2.5 py-0.5 rounded font-bold transition flex items-center shadow-sm">
+                    <i class="fas fa-phone-volume mr-1.5 animate-pulse"></i> Hot-Line: 0986 970 279
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN GOV HEADER WITH EMBLEM & BANNER -->
+    <header class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-40 border-b-4 border-gov-red">
+        <!-- Top Gov Title Banner -->
+        <div class="bg-gradient-to-r from-gov-red via-red-700 to-gov-redDark text-white py-3 px-4">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-2">
+                <!-- National Emblem Header -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 border-yellow-400 bg-red-600 flex items-center justify-center shadow-md flex-shrink-0 relative overflow-hidden">
+                        <!-- Flag SVG / Star Emblem -->
+                        <svg class="w-10 h-10 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="text-[10px] sm:text-xs font-bold tracking-widest text-yellow-300 uppercase">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
+                        <div class="text-[9px] sm:text-[11px] font-semibold tracking-wider text-white italic mb-0.5">Độc lập - Tự do - Hạnh phúc</div>
+                        <h2 class="text-xs sm:text-sm font-bold text-gray-100 uppercase">ỦY BAN NHÂN DÂN XÃ DÂN HÒA</h2>
+                        <h1 class="text-base sm:text-xl md:text-2xl font-black text-yellow-300 uppercase font-serif tracking-tight">
+                            BAN THÔNG TIN THÔN TẢO DƯƠNG
+                        </h1>
+                    </div>
+                </div>
+
+                <!-- Sub Info - Location -->
+                <div class="hidden lg:block text-right border-l border-red-500/40 pl-6 text-xs text-red-100 space-y-0.5">
+                    <p class="font-bold text-white"><i class="fas fa-map-marker-alt text-yellow-300 mr-1"></i> THÔN TẢO DƯƠNG - XÃ DÂN HÒA</p>
+                    <p class="text-yellow-200 font-semibold">THÀNH PHỐ HÀ NỘI</p>
+                    <p class="text-[11px] text-gray-200">Trực thuộc Chính quyền Địa phương</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- NAVIGATION MENU & SEARCH BAR -->
+        <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-between items-center">
+            
+            <!-- Mobile Menu Toggle Button -->
+            <div class="w-full md:w-auto flex justify-between items-center py-2 md:py-0 border-b md:border-b-0 border-gray-200 dark:border-gray-700">
+                <span class="md:hidden font-bold text-sm text-gov-red dark:text-yellow-400">DANH MỤC THÔNG TIN</span>
+                <button id="mobile-menu-btn" class="md:hidden text-gov-red dark:text-gray-200 focus:outline-none p-1.5 border rounded border-gray-300">
+                    <i class="fas fa-bars text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Main Menu Links -->
+            <nav id="main-nav" class="hidden md:flex flex-wrap text-sm font-semibold text-gray-700 dark:text-gray-200 w-full md:w-auto">
+                <a href="#trang-chu" class="py-3 px-3.5 hover:bg-gov-red hover:text-white transition border-b-2 border-transparent hover:border-yellow-400 flex items-center">
+                    <i class="fas fa-home mr-1.5 text-gov-red dark:text-yellow-400"></i> Trang Chủ
+                </a>
+                <a href="#gioi-thieu" class="py-3 px-3.5 hover:bg-gov-red hover:text-white transition border-b-2 border-transparent hover:border-yellow-400">
+                    Di Tích & Lịch Sử
+                </a>
+                <a href="#tin-tuc" class="py-3 px-3.5 hover:bg-gov-red hover:text-white transition border-b-2 border-transparent hover:border-yellow-400">
+                    Tin Tức - Sự Kiện
+                </a>
+                <a href="#chuyen-doi-so" class="py-3 px-3.5 hover:bg-gov-red hover:text-white transition border-b-2 border-transparent hover:border-yellow-400">
+                    Dịch Vụ Công & VNeID
+                </a>
+                <a href="#van-hoa" class="py-3 px-3.5 hover:bg-gov-red hover:text-white transition border-b-2 border-transparent hover:border-yellow-400">
+                    Cảnh Quan & Làng Nghề
+                </a>
+                <a href="#danh-ba" class="py-3 px-3.5 hover:bg-gov-red hover:text-white transition border-b-2 border-transparent hover:border-yellow-400">
+                    Đường Dây Nóng
+                </a>
+                <a href="#gop-y" class="py-3 px-3.5 hover:bg-gov-red hover:text-white transition border-b-2 border-transparent hover:border-yellow-400">
+                    Góp Ý - Phản Ánh
+                </a>
+            </nav>
+
+            <!-- Quick Search Bar -->
+            <div class="py-2 w-full md:w-auto flex items-center">
+                <div class="relative w-full md:w-56">
+                    <input type="text" id="search-input" placeholder="Tìm kiếm tin tức..." 
+                           class="w-full pl-8 pr-3 py-1.5 text-xs rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:outline-none focus:border-gov-blue">
+                    <i class="fas fa-search absolute left-2.5 top-2 text-gray-400 text-xs"></i>
+                </div>
+                <button onclick="handleSearch()" class="ml-1.5 bg-gov-blue hover:bg-gov-blueDark text-white px-3 py-1.5 rounded-full text-xs font-semibold transition flex-shrink-0">
+                    Tìm
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- NOTIFICATION MARQUEE BANNER -->
+    <div class="bg-amber-100 dark:bg-amber-950/70 border-b border-amber-300 dark:border-amber-800 text-amber-950 dark:text-amber-200 py-1.5 px-4 text-xs font-medium">
+        <div class="max-w-7xl mx-auto flex items-center">
+            <span class="bg-gov-red text-white text-[10px] font-bold uppercase px-2 py-0.5 rounded flex items-center flex-shrink-0 mr-3 shadow-sm">
+                <i class="fas fa-bullhorn mr-1 animate-bounce"></i> Thông báo BQL:
+            </span>
+            <div class="overflow-hidden w-full relative">
+                <div class="marquee-content">
+                    📢 [HỌP THÔN TẢO DƯƠNG] Mời đại diện hộ gia đình dự họp kỉ niệm ngày thành lập MTTQ Việt Nam 19h00 tại Nhà Văn Hóa. 📢 [DI TÍCH LỊCH SỬ] Chào mừng du khách thập phương về thăm Di tích Lịch sử Đình Tảo Dương - Nơi Bác Hồ về thăm năm 1967. 📢 [VNeID] Hướng dẫn bà con kích hoạt tài khoản định danh điện tử Mức 2.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO CAROUSEL / SLIDESHOW SECTION WITH REAL VILLAGE IMAGES -->
+    <section id="trang-chu" class="relative bg-gray-900 text-white overflow-hidden">
+        <div id="carousel-container" class="relative h-[340px] sm:h-[440px] md:h-[500px]">
+            <!-- Slide 1: Cổng Làng Tảo Dương (14.jfif) -->
+            <div class="carousel-slide absolute inset-0 transition-opacity duration-1000 opacity-100 bg-cover bg-center" style="background-image: url('14.jfif');">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20 flex items-end">
+                    <div class="max-w-7xl mx-auto px-6 pb-10 w-full">
+                        <span class="bg-gov-red text-yellow-300 font-bold text-xs px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block shadow">Biểu Tượng Quê Hương</span>
+                        <h2 class="text-xl sm:text-3xl md:text-4xl font-extrabold font-serif text-yellow-300 drop-shadow-md">
+                            CỔNG LÀNG TẢO DƯƠNG - XÃ DÂN HÒA
+                        </h2>
+                        <p class="text-xs sm:text-base text-gray-100 mt-2 max-w-2xl text-shadow">
+                            Cổng làng cổ kính - Nơi ghi dấu giá trị văn hóa lâu đời, tinh thần đoàn kết và khát vọng phát triển của nhân dân thôn Tảo Dương, TP. Hà Nội.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Đình Tảo Dương (111.jpg) -->
+            <div class="carousel-slide absolute inset-0 transition-opacity duration-1000 opacity-0 bg-cover bg-center" style="background-image: url('111.jpg');">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20 flex items-end">
+                    <div class="max-w-7xl mx-auto px-6 pb-10 w-full">
+                        <span class="bg-gov-goldDark text-white font-bold text-xs px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block shadow">Di Tích Lịch Sử Quốc Gia</span>
+                        <h2 class="text-xl sm:text-3xl md:text-4xl font-extrabold font-serif text-yellow-300 drop-shadow-md">
+                            ĐÌNH TẢO DƯƠNG - KIẾN TRÚC THẾ KỶ XVII - XIX
+                        </h2>
+                        <p class="text-xs sm:text-base text-gray-100 mt-2 max-w-2xl">
+                            Ngôi đình cổ kính với nét kiến trúc nghệ thuật độc đáo, nơi lưu giữ tinh hoa văn hóa truyền thống của quê hương Dân Hòa.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Ao Sen Tảo Dương (12.jfif) -->
+            <div class="carousel-slide absolute inset-0 transition-opacity duration-1000 opacity-0 bg-cover bg-center" style="background-image: url('12.jfif');">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20 flex items-end">
+                    <div class="max-w-7xl mx-auto px-6 pb-10 w-full">
+                        <span class="bg-gov-green text-yellow-300 font-bold text-xs px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block shadow">Nông Thôn Mới Xanh - Sạch - Đẹp</span>
+                        <h2 class="text-xl sm:text-3xl md:text-4xl font-extrabold font-serif text-white drop-shadow-md">
+                            CẢNH QUAN AO SEN TẢO DƯƠNG
+                        </h2>
+                        <p class="text-xs sm:text-base text-gray-100 mt-2 max-w-2xl">
+                            Không gian sinh thái xanh mát, thanh bình tô điểm thêm vẻ đẹp của làng quê Việt Nam thanh bình.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Đường Làng Hoa Phượng Đỏ (13.jfif) -->
+            <div class="carousel-slide absolute inset-0 transition-opacity duration-1000 opacity-0 bg-cover bg-center" style="background-image: url('13.jfif');">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20 flex items-end">
+                    <div class="max-w-7xl mx-auto px-6 pb-10 w-full">
+                        <span class="bg-gov-blue text-white font-bold text-xs px-3 py-1 rounded-full uppercase tracking-wider mb-2 inline-block shadow">Đường Quê Rợp Bóng Mát</span>
+                        <h2 class="text-xl sm:text-3xl md:text-4xl font-extrabold font-serif text-yellow-300 drop-shadow-md">
+                            ĐƯỜNG LÀNG HOA PHƯỢNG ĐỎ TẢO DƯƠNG
+                        </h2>
+                        <p class="text-xs sm:text-base text-gray-100 mt-2 max-w-2xl">
+                            Những con đường nông thôn mới rợp bóng mát hoa phượng đỏ, nối liền các xóm làng thân thương.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Carousel Controls -->
+        <button onclick="prevSlide()" class="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white p-2.5 rounded-full transition z-10"><i class="fas fa-chevron-left"></i></button>
+        <button onclick="nextSlide()" class="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white p-2.5 rounded-full transition z-10"><i class="fas fa-chevron-right"></i></button>
+    </section>
+
+    <!-- QUICK ACTION TILES -->
+    <section class="max-w-7xl mx-auto px-4 -mt-6 relative z-20">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+            <div onclick="scrollToSection('gioi-thieu')" class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md border-t-4 border-gov-red text-center hover:-translate-y-1 transition cursor-pointer">
+                <div class="w-10 h-10 mx-auto mb-2 bg-red-100 dark:bg-red-900/50 text-gov-red dark:text-red-300 rounded-full flex items-center justify-center text-lg">
+                    <i class="fas fa-landmark"></i>
+                </div>
+                <h3 class="font-bold text-gray-800 dark:text-gray-100 text-xs sm:text-sm">Đình Tảo Dương</h3>
+                <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">Bác Hồ về thăm 10/2/1967</p>
+            </div>
+
+            <div onclick="scrollToSection('chuyen-doi-so')" class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md border-t-4 border-gov-blue text-center hover:-translate-y-1 transition cursor-pointer">
+                <div class="w-10 h-10 mx-auto mb-2 bg-blue-100 dark:bg-blue-900/50 text-gov-blue dark:text-blue-300 rounded-full flex items-center justify-center text-lg">
+                    <i class="fas fa-id-card"></i>
+                </div>
+                <h3 class="font-bold text-gray-800 dark:text-gray-100 text-xs sm:text-sm">Dịch Vụ Công & VNeID</h3>
+                <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">Khai sinh, Tạm trú, Định danh</p>
+            </div>
+
+            <div onclick="scrollToSection('van-hoa')" class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md border-t-4 border-gov-goldDark text-center hover:-translate-y-1 transition cursor-pointer">
+                <div class="w-10 h-10 mx-auto mb-2 bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 rounded-full flex items-center justify-center text-lg">
+                    <i class="fas fa-tree"></i>
+                </div>
+                <h3 class="font-bold text-gray-800 dark:text-gray-100 text-xs sm:text-sm">Cảnh Quan Làng Quê</h3>
+                <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">Ao sen & Đường hoa phượng</p>
+            </div>
+
+            <div onclick="scrollToSection('gop-y')" class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md border-t-4 border-gov-green text-center hover:-translate-y-1 transition cursor-pointer">
+                <div class="w-10 h-10 mx-auto mb-2 bg-green-100 dark:bg-green-900/50 text-gov-green dark:text-green-300 rounded-full flex items-center justify-center text-lg">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <h3 class="font-bold text-gray-800 dark:text-gray-100 text-xs sm:text-sm">Ý Kiến - Phản Ánh</h3>
+                <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">Hòm thư tương tác nhân dân</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN BODY CONTENT -->
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+        <!-- LEFT 2 COLUMNS (NEWS & CORE CONTENT) -->
+        <div class="lg:col-span-2 space-y-10">
+
+            <!-- HISTORICAL & CULTURE SECTION (WITH REAL IMAGES: 111.jpg & 19_big.jpg) -->
+            <section id="gioi-thieu" class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 scroll-mt-24">
+                <div class="border-b-2 border-gov-red pb-2 mb-4 flex justify-between items-center">
+                    <h2 class="text-lg font-bold font-serif text-gov-red dark:text-yellow-400 flex items-center">
+                        <i class="fas fa-archway mr-2 text-gov-gold"></i> DI TÍCH LỊCH SỬ & VĂN HÓA ĐÌNH TẢO DƯƠNG
+                    </h2>
+                    <span class="text-xs bg-red-100 text-gov-red font-bold px-2.5 py-0.5 rounded-full">Di Tích Cấp Quốc Gia</span>
+                </div>
+
+                <!-- Main Historical Image Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="relative rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-sm">
+                        <img src="111.jpg" alt="Đình Tảo Dương" class="w-full h-56 object-cover hover:scale-105 transition duration-300">
+                        <div class="absolute bottom-0 inset-x-0 bg-black/70 text-white p-2 text-xs">
+                            <i class="fas fa-camera mr-1 text-yellow-300"></i> Toàn cảnh Đình Tảo Dương kiến trúc thế kỷ XVII - XIX
+                        </div>
+                    </div>
+                    <div class="relative rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shadow-sm">
+                        <img src="19_big.jpg" alt="Bia di tích Đình Tảo Dương" class="w-full h-56 object-cover hover:scale-105 transition duration-300">
+                        <div class="absolute bottom-0 inset-x-0 bg-black/70 text-white p-2 text-xs">
+                            <i class="fas fa-award mr-1 text-yellow-300"></i> Bia Di tích Lịch sử Đình Tảo Dương (Bác Hồ về thăm 10/2/1967)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-3 text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                    <h3 class="font-bold text-gray-900 dark:text-white text-base">Vùng Đất Địa Linh Nhân Kiệt Xã Dân Hòa</h3>
+                    <p class="text-justify">
+                        <strong>Đình Tảo Dương</strong> là di tích kiến trúc nghệ thuật cổ kính thuộc niên đại thế kỷ XVII - XIX, nằm trên địa bàn thôn Tảo Dương, Xã Dân Hòa, Thành phố Hà Nội. Ngôi đình là nơi phụng thờ Thành hoàng làng và giữ vai trò trung tâm sinh hoạt văn hóa, tâm linh, tín ngưỡng của toàn thể nhân dân địa phương.
+                    </p>
+                    <div class="p-3 bg-amber-50 dark:bg-gray-700/60 border-l-4 border-gov-goldDark rounded text-amber-900 dark:text-amber-200 font-medium">
+                        <i class="fas fa-star text-gov-gold mr-1.5"></i> <strong>Sự kiện lịch sử trọng đại:</strong> Ngày <strong>10/02/1967</strong>, Chủ tịch Hồ Chí Minh kính yêu đã về thăm nhân dân và cán bộ thôn Tảo Dương. Sự kiện lịch sử vẻ vang này được ghi danh trang trọng trên Bia Di tích Đình Tảo Dương và luôn là niềm tự hào to lớn của các thế hệ người dân xã Dân Hòa.
+                    </div>
+                </div>
+            </section>
+
+            <!-- NEWS & EVENTS SECTION -->
+            <section id="tin-tuc" class="scroll-mt-24">
+                <div class="flex justify-between items-center border-b-2 border-gov-red pb-2 mb-6">
+                    <h2 class="text-lg sm:text-xl font-bold font-serif text-gov-red dark:text-yellow-400 flex items-center">
+                        <i class="fas fa-newspaper mr-2 text-gov-gold"></i> TIN TỨC & SỰ KIỆN NỔI BẬT
+                    </h2>
+                    <span class="text-xs text-gray-500 dark:text-gray-400">Tin chính thống địa phương</span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5" id="news-grid">
+                    <!-- Dynamic News Items render here -->
+                </div>
+            </section>
+
+            <!-- VILLAGE SCENERY & LOCAL OCOP (WITH REAL IMAGES: 12.jfif & 13.jfif) -->
+            <section id="van-hoa" class="scroll-mt-24">
+                <div class="flex justify-between items-center border-b-2 border-gov-green pb-2 mb-4">
+                    <h2 class="text-lg font-bold font-serif text-gray-900 dark:text-white flex items-center">
+                        <i class="fas fa-images mr-2 text-gov-green"></i> CẢNH QUAN & NÔNG THÔN MỚI TẢO DƯƠNG
+                    </h2>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm">
+                        <img src="12.jfif" class="w-full h-36 object-cover hover:scale-105 transition duration-300" alt="Ao sen Tảo Dương">
+                        <div class="p-3">
+                            <span class="text-[10px] bg-green-100 text-green-800 font-bold px-2 py-0.5 rounded">Cảnh Quan Sinh Thái</span>
+                            <h4 class="font-bold text-xs text-gray-800 dark:text-gray-100 mt-1">Ao Sen Thôn Tảo Dương</h4>
+                            <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-1">Không gian xanh thanh bình tô điểm cảnh quan sinh thái làng quê.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm">
+                        <img src="13.jfif" class="w-full h-36 object-cover hover:scale-105 transition duration-300" alt="Đường hoa phượng">
+                        <div class="p-3">
+                            <span class="text-[10px] bg-red-100 text-red-800 font-bold px-2 py-0.5 rounded">Đường Quê Xanh - Sạch - Đẹp</span>
+                            <h4 class="font-bold text-xs text-gray-800 dark:text-gray-100 mt-1">Tuyến Đường Hoa Phượng Đỏ</h4>
+                            <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-1">Đường làng rợp bóng mát hoa phượng mỗi mùa hè về.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm">
+                        <img src="14.jfif" class="w-full h-36 object-cover hover:scale-105 transition duration-300" alt="Cổng làng Tảo Dương">
+                        <div class="p-3">
+                            <span class="text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded">Văn Hóa Làng Xã</span>
+                            <h4 class="font-bold text-xs text-gray-800 dark:text-gray-100 mt-1">Cổng Làng Tảo Dương</h4>
+                            <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-1">Nơi đón chào bà con và du khách thập phương về thăm làng.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DIGITAL TRANSFORMATION & PUBLIC SERVICES SECTION -->
+            <section id="chuyen-doi-so" class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 scroll-mt-24">
+                <div class="border-b-2 border-gov-blue pb-2 mb-4 flex justify-between items-center">
+                    <h2 class="text-lg font-bold font-serif text-gov-blue dark:text-blue-400 flex items-center">
+                        <i class="fas fa-laptop-code mr-2 text-gov-gold"></i> DỊCH VỤ CÔNG & CHUYỂN ĐỔI SỐ (CẤP XÃ)
+                    </h2>
+                    <span class="text-xs bg-blue-100 text-gov-blue dark:bg-blue-900/60 dark:text-blue-200 px-2.5 py-0.5 rounded-full font-semibold">Công Nghệ Số</span>
+                </div>
+
+                <p class="text-xs text-gray-600 dark:text-gray-300 mb-4">
+                    Ủy ban nhân dân Xã Dân Hòa hướng dẫn bà con nhân dân thôn Tảo Dương thực hiện thủ tục trực tuyến và định danh VNeID:
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div onclick="openModal('Hướng dẫn Kích hoạt VNeID Mức 2', 'Bà con mang Căn cước công dân gắn chíp tới Trụ sở Công an Xã Dân Hòa để làm thủ tục cấp định danh Mức 2. Sau khi có tin nhắn thông báo, mở ứng dụng VNeID chọn Kích hoạt tài khoản.')" 
+                         class="p-3 rounded-lg border border-blue-200 dark:border-blue-900 bg-blue-50/50 dark:bg-gray-700/50 hover:bg-blue-100/50 transition cursor-pointer flex items-start space-x-3">
+                        <i class="fas fa-shield-cat text-2xl text-gov-blue mt-1"></i>
+                        <div>
+                            <h4 class="font-bold text-xs text-gray-800 dark:text-gray-100">Kích hoạt Định danh VNeID Mức 2</h4>
+                            <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">Tích hợp Giấy phép lái xe, Bảo hiểm y tế, Hộ khẩu điện tử.</p>
+                        </div>
+                    </div>
+
+                    <div onclick="openModal('Khai báo Tạm trú - Tạm vắng Trực tuyến', 'Bà con truy cập Cổng Dịch vụ công Bộ Công an (dichvucong.bocongan.gov.vn), đăng nhập bằng VNeID và nộp hồ sơ Khai báo Tạm trú/Tạm vắng cấp xã.')" 
+                         class="p-3 rounded-lg border border-blue-200 dark:border-blue-900 bg-blue-50/50 dark:bg-gray-700/50 hover:bg-blue-100/50 transition cursor-pointer flex items-start space-x-3">
+                        <i class="fas fa-house-user text-2xl text-gov-blue mt-1"></i>
+                        <div>
+                            <h4 class="font-bold text-xs text-gray-800 dark:text-gray-100">Khai báo Tạm trú / Tạm vắng</h4>
+                            <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">Thực hiện online không cần trực tiếp tới trụ sở Công an xã.</p>
+                        </div>
+                    </div>
+
+                    <div onclick="openModal('Đăng ký Khai sinh & Thường trú Liên thông', 'Quy trình liên thông 3 trong 1: Đăng ký Khai sinh - Đăng ký Thường trú - Cấp Thẻ BHYT cho trẻ dưới 6 tuổi thực hiện trên Cổng Dịch vụ công Quốc gia.')" 
+                         class="p-3 rounded-lg border border-blue-200 dark:border-blue-900 bg-blue-50/50 dark:bg-gray-700/50 hover:bg-blue-100/50 transition cursor-pointer flex items-start space-x-3">
+                        <i class="fas fa-baby text-2xl text-gov-blue mt-1"></i>
+                        <div>
+                            <h4 class="font-bold text-xs text-gray-800 dark:text-gray-100">Dịch vụ công Liên thông Đăng ký Khai sinh</h4>
+                            <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">Cấp Khai sinh, Thường trú và BHYT trẻ em đồng thời.</p>
+                        </div>
+                    </div>
+
+                    <div onclick="openModal('Thanh toán Điện - Nước Không tiền mặt', 'Hướng dẫn bà con đăng ký trích nợ tự động hoặc thanh toán tiền điện sinh hoạt, tiền nước qua ứng dụng Ngân hàng / Viettel Money.')" 
+                         class="p-3 rounded-lg border border-blue-200 dark:border-blue-900 bg-blue-50/50 dark:bg-gray-700/50 hover:bg-blue-100/50 transition cursor-pointer flex items-start space-x-3">
+                        <i class="fas fa-qrcode text-2xl text-gov-blue mt-1"></i>
+                        <div>
+                            <h4 class="font-bold text-xs text-gray-800 dark:text-gray-100">Thanh Toán Số Dân Dụng</h4>
+                            <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">Thanh toán phí dịch vụ công và hóa đơn sinh hoạt qua QR.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FEEDBACK FORM & PUBLIC FEEDBACK LIST -->
+            <section id="gop-y" class="bg-gradient-to-br from-red-50 to-blue-50 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm scroll-mt-24">
+                <div class="border-b border-gray-300 dark:border-gray-600 pb-3 mb-4">
+                    <h2 class="text-lg font-bold font-serif text-gov-red dark:text-yellow-400 flex items-center">
+                        <i class="fas fa-paper-plane mr-2"></i> PHẢN ÁNH & Ý KIẾN NGUYỆN VỌNG CỦA BÀ CON
+                    </h2>
+                    <p class="text-xs text-gray-600 dark:text-gray-300 mt-1">Gửi ý kiến trực tiếp tới Ban Quản Lý Thôn Tảo Dương & UBND Xã Dân Hòa.</p>
+                </div>
+
+                <form id="feedback-form" onsubmit="submitFeedback(event)" class="space-y-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">Họ tên người gửi (*)</label>
+                            <input type="text" id="fb-name" required placeholder="Ví dụ: Nguyễn Văn A" class="w-full px-3 py-1.5 text-xs border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:border-gov-blue">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">Số điện thoại (*)</label>
+                            <input type="tel" id="fb-phone" required placeholder="09x xxx xxxx" class="w-full px-3 py-1.5 text-xs border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:border-gov-blue">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">Lĩnh vực phản ánh</label>
+                        <select id="fb-topic" class="w-full px-3 py-1.5 text-xs border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:border-gov-blue">
+                            <option value="Đường xá & Điện chiếu sáng">Đường xá nội thôn & Điện chiếu sáng</option>
+                            <option value="Vệ sinh môi trường">Vệ sinh môi trường & Rác thải</option>
+                            <option value="An ninh trật tự">An ninh trật tự thôn xóm</option>
+                            <option value="Dịch vụ công cấp xã">Thủ tục hành chính / Dịch vụ công cấp xã</option>
+                            <option value="Ý kiến khác">Ý kiến đóng góp khác</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">Nội dung chi tiết (*)</label>
+                        <textarea id="fb-content" rows="3" required placeholder="Nhập rõ nội dung phản ánh..." class="w-full px-3 py-1.5 text-xs border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:border-gov-blue"></textarea>
+                    </div>
+                    <button type="submit" class="bg-gov-red hover:bg-gov-redDark text-white font-bold text-xs px-5 py-2 rounded shadow transition flex items-center">
+                        <i class="fas fa-paper-plane mr-1.5"></i> Gửi Phản Ánh
+                    </button>
+                </form>
+
+                <!-- PUBLIC FEEDBACK LIST -->
+                <div class="mt-6 border-t border-gray-300 dark:border-gray-600 pt-4">
+                    <h3 class="font-bold text-xs uppercase text-gray-700 dark:text-gray-300 mb-3 flex items-center">
+                        <i class="fas fa-list-check mr-1.5 text-gov-blue"></i> Ý Kiến Đã Gửi Mới Nhất
+                    </h3>
+                    <div id="public-feedback-list" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+                        <!-- Rendered via JS -->
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- RIGHT SIDEBAR -->
+        <aside class="space-y-6">
+
+            <!-- HOTLINE & BAN QUẢN LÝ DIRECTORY -->
+            <div id="danh-ba" class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden scroll-mt-24">
+                <div class="bg-gov-red text-white px-4 py-2.5 flex items-center justify-between">
+                    <h3 class="font-bold font-serif text-xs uppercase flex items-center">
+                        <i class="fas fa-address-book mr-2 text-yellow-300"></i> DANH BẠ ĐƯỜNG DÂY NÓNG
+                    </h3>
+                </div>
+                <div class="p-3 divide-y divide-gray-100 dark:divide-gray-700 text-xs">
+                    <div class="py-2 flex items-center justify-between">
+                        <div>
+                            <p class="font-bold text-gray-800 dark:text-gray-100">Trưởng thôn Tảo Dương</p>
+                            <p class="text-[11px] text-gray-500 dark:text-gray-400">Ông: Nguyễn Văn Bình</p>
+                        </div>
+                        <a href="tel:0988123456" class="bg-red-50 dark:bg-red-900/40 text-gov-red dark:text-red-300 px-2 py-1 rounded font-bold hover:bg-red-100">
+                            <i class="fas fa-phone mr-1"></i> 0988.123.456
+                        </a>
+                    </div>
+                    <div class="py-2 flex items-center justify-between">
+                        <div>
+                            <p class="font-bold text-gray-800 dark:text-gray-100">Bí thư Chi bộ thôn</p>
+                            <p class="text-[11px] text-gray-500 dark:text-gray-400">Ông: Trần Đình Minh</p>
+                        </div>
+                        <a href="tel:0977234567" class="bg-blue-50 dark:bg-blue-900/40 text-gov-blue dark:text-blue-300 px-2 py-1 rounded font-bold hover:bg-blue-100">
+                            <i class="fas fa-phone mr-1"></i> 0977.234.567
+                        </a>
+                    </div>
+                    <div class="py-2 flex items-center justify-between">
+                        <div>
+                            <p class="font-bold text-gray-800 dark:text-gray-100">Công an Xã Dân Hòa</p>
+                            <p class="text-[11px] text-gray-500 dark:text-gray-400">Trực ban An ninh</p>
+                        </div>
+                        <a href="tel:02433876543" class="bg-red-50 dark:bg-red-900/40 text-gov-red dark:text-red-300 px-2 py-1 rounded font-bold hover:bg-red-100">
+                            <i class="fas fa-shield-alt mr-1"></i> (024) 3387.6543
+                        </a>
+                    </div>
+                    <div class="py-2 flex items-center justify-between">
+                        <div>
+                            <p class="font-bold text-gray-800 dark:text-gray-100">Trạm Y Tế Xã Dân Hòa</p>
+                            <p class="text-[11px] text-gray-500 dark:text-gray-400">Cấp cứu y tế địa phương</p>
+                        </div>
+                        <a href="tel:02433876999" class="bg-green-50 dark:bg-green-900/40 text-gov-green dark:text-green-300 px-2 py-1 rounded font-bold hover:bg-green-100">
+                            <i class="fas fa-hospital mr-1"></i> (024) 3387.6999
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ANNOUNCEMENTS FROM VILLAGE HEAD -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <div class="bg-gov-blue text-white px-4 py-2.5">
+                    <h3 class="font-bold font-serif text-xs uppercase flex items-center">
+                        <i class="fas fa-scroll mr-2 text-yellow-300"></i> THÔNG BÁO TỪ TRƯỞNG THÔN
+                    </h3>
+                </div>
+                <div class="p-3 space-y-2 text-xs">
+                    <div class="p-2.5 bg-gray-50 dark:bg-gray-700 rounded border-l-4 border-gov-red">
+                        <span class="text-[10px] text-gray-400 font-bold block">08/11/2026</span>
+                        <p class="font-bold text-gray-800 dark:text-gray-100">Đăng ký mua BHYT hộ gia đình đợt cuối năm</p>
+                        <p class="text-[11px] text-gray-600 dark:text-gray-300 mt-1">Bà con liên hệ xóm trưởng hoặc Nhà văn hóa thôn trước ngày 20/11.</p>
+                    </div>
+                    <div class="p-2.5 bg-gray-50 dark:bg-gray-700 rounded border-l-4 border-gov-blue">
+                        <span class="text-[10px] text-gray-400 font-bold block">02/11/2026</span>
+                        <p class="font-bold text-gray-800 dark:text-gray-100">Lịch nộp quỹ Quỹ Vì người nghèo</p>
+                        <p class="text-[11px] text-gray-600 dark:text-gray-300 mt-1">Cuộc vận động thu nộp quỹ phát động tới từng hộ gia đình trong thôn.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- USEFUL LINKS PORTAL -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+                <h3 class="font-bold text-xs text-gray-800 dark:text-gray-100 border-b dark:border-gray-700 pb-2 mb-2 flex items-center">
+                    <i class="fas fa-link text-gov-red mr-2"></i> LIÊN KẾT CỔNG THÔNG TIN
+                </h3>
+                <ul class="space-y-1.5 text-xs text-gov-blue dark:text-blue-400">
+                    <li><a href="https://hanoi.gov.vn" target="_blank" class="hover:underline flex items-center"><i class="fas fa-chevron-right text-[9px] mr-1 text-gray-400"></i> Cổng thông tin Thành phố Hà Nội</a></li>
+                    <li><a href="https://dichvucong.gov.vn" target="_blank" class="hover:underline flex items-center"><i class="fas fa-chevron-right text-[9px] mr-1 text-gray-400"></i> Cổng Dịch vụ công Quốc gia</a></li>
+                    <li><a href="https://bocongan.gov.vn" target="_blank" class="hover:underline flex items-center"><i class="fas fa-chevron-right text-[9px] mr-1 text-gray-400"></i> Cổng thông tin Bộ Công An (VNeID)</a></li>
+                </ul>
+            </div>
+
+        </aside>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-gov-redDark text-white pt-8 pb-6 border-t-4 border-yellow-400">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6 pb-6 border-b border-red-900">
+            <div>
+                <h3 class="font-bold font-serif text-sm text-yellow-300 uppercase mb-2">BAN THÔNG TIN THÔN TẢO DƯƠNG</h3>
+                <p class="text-xs text-gray-200 leading-relaxed">
+                    Ủy ban nhân dân Xã Dân Hòa - Thành phố Hà Nội.<br>
+                    Cổng thông tin tuyên truyền chủ trương của Đảng, chính sách pháp luật của Nhà nước và các hoạt động cộng đồng thôn làng.
+                </p>
+            </div>
+            <div class="text-xs space-y-1">
+                <h4 class="font-bold text-yellow-300 uppercase mb-2">TRỤ SỞ & ĐỊA CHỈ</h4>
+                <p><i class="fas fa-map-marker-alt text-yellow-400 mr-1.5"></i> Nhà Văn Hóa Thôn Tảo Dương, Xã Dân Hòa, TP. Hà Nội.</p>
+                <p><i class="fas fa-envelope text-yellow-400 mr-1.5"></i> Email: taoduong.danhoa.hanoi@gmail.com</p>
+            </div>
+            <div class="text-xs">
+                <h4 class="font-bold text-yellow-300 uppercase mb-2">BẢN QUYỀN & QUẢN LÝ</h4>
+                <p class="text-gray-300">© 2026 Cổng thông tin Thôn Tảo Dương, Xã Dân Hòa, Thành phố Hà Nội.</p>
+                <p class="text-gray-400 text-[11px] mt-1">Mô hình Chính quyền Địa phương trực thuộc Trung ương.</p>
+            </div>
+        </div>
+        <div class="text-center text-[11px] text-red-300 mt-4">
+            Thiết kế tối ưu hiển thị trên Điện thoại, Máy tính bảng và Máy tính cá nhân.
+        </div>
+    </footer>
+
+    <!-- MODAL POPUP FOR NEWS / DETAILS -->
+    <div id="modal-overlay" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 rounded-xl max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border-2 border-yellow-400">
+            <div class="bg-gov-red text-white p-3.5 flex justify-between items-center sticky top-0 z-10">
+                <h3 id="modal-title" class="font-bold font-serif text-sm sm:text-base text-yellow-300">Tiêu đề bài viết</h3>
+                <button onclick="closeModal()" class="text-gray-200 hover:text-white text-xl font-bold">&times;</button>
+            </div>
+            <div class="p-5 text-xs sm:text-sm space-y-3 leading-relaxed" id="modal-body">
+                <!-- Content injected via JS -->
+            </div>
+            <div class="bg-gray-100 dark:bg-gray-700 px-4 py-2.5 text-right border-t dark:border-gray-600">
+                <button onclick="closeModal()" class="bg-gov-red hover:bg-gov-redDark text-white px-4 py-1.5 rounded text-xs font-bold">
+                    Đóng cửa sổ
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Real News Data using real local images
+        const newsData = [
+            {
+                id: 1,
+                title: "Kỷ niệm sự kiện lịch sử Bác Hồ về thăm thôn Tảo Dương xã Dân Hòa (10/02/1967)",
+                date: "08/11/2026",
+                category: "Lịch Sử - Truyền Thống",
+                img: "19_big.jpg",
+                summary: "Chi bộ và Ban quản lý thôn Tảo Dương ôn lại truyền thống lịch sử vẻ vang ngày Bác Hồ về thăm địa phương...",
+                content: "Cán bộ và nhân dân thôn Tảo Dương luôn tự hào giữ gìn Di tích Lịch sử Đình Tảo Dương - nơi Bác Hồ về thăm ngày 10/02/1967. Phong trào học tập và làm theo tư tưởng, đạo đức, phong cách Hồ Chí Minh luôn được nhân dân hưởng ứng tích cực."
+            },
+            {
+                id: 2,
+                title: "Thôn Tảo Dương hoàn thành công trình đường làng hoa phượng và ao sen sinh thái",
+                date: "05/11/2026",
+                category: "Nông Thôn Mới",
+                img: "13.jfif",
+                summary: "Bà con nhân dân chung tay chăm sóc tuyến đường hoa phượng đỏ và giữ gìn vệ sinh môi trường ao sen...",
+                content: "Thực hiện tiêu chí Nông thôn mới kiểu mẫu, thôn Tảo Dương đã duy trì tuyến đường hoa phượng đỏ rợp bóng mát cùng cảnh quan ao sen sạch đẹp, tạo không gian xanh - sạch - đẹp cho toàn thể nhân dân sinh hoạt."
+            },
+            {
+                id: 3,
+                title: "Hướng dẫn bà con thôn Tảo Dương kích hoạt tài khoản VNeID Mức 2",
+                date: "01/11/2026",
+                category: "Chuyển Đổi Số",
+                img: "14.jfif",
+                summary: "Tổ công tác lưu động Công an xã Dân Hòa hỗ trợ bà con kích hoạt VNeID tại Nhà văn hóa thôn...",
+                content: "Nhằm nâng cao tỷ lệ sử dụng Dịch vụ công trực tuyến, Công an xã Dân Hòa đã tổ chức đợt cao điểm hướng dẫn bà con thôn Tảo Dương tích hợp BHYT, Giấy phép lái xe vào tài khoản định danh điện tử VNeID."
+            },
+            {
+                id: 4,
+                title: "Lễ hội truyền thống Đình Tảo Dương xuân mới - Bảo tồn nét đẹp văn hóa",
+                date: "28/10/2026",
+                category: "Văn Hóa Tín Ngưỡng",
+                img: "111.jpg",
+                summary: "Ban Khánh tiết Đình Tảo Dương chuẩn bị chu đáo công tác tổ chức lễ hội làng truyền thống...",
+                content: "Lễ hội Đình Tảo Dương diễn ra hằng năm là dịp để con cháu trong làng cùng người dân đi làm ăn xa trở về bái yết Thành hoàng, thắt chặt tình làng nghĩa xóm."
+            }
+        ];
+
+        let currentSlide = 0;
+        let fontSizeLevel = 0;
+
+        // Real-time Clock
+        function updateClock() {
+            const now = new Date();
+            const days = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+            const dayName = days[now.getDay()];
+            const dateStr = `${dayName}, ${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()} - ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+            const clockEl = document.getElementById('realtime-clock');
+            if(clockEl) clockEl.innerHTML = `<i class="far fa-clock mr-1"></i> ${dateStr}`;
+        }
+
+        // Render News Grid
+        function renderNews(items) {
+            const container = document.getElementById('news-grid');
+            if(!container) return;
+            container.innerHTML = '';
+            
+            if(items.length === 0) {
+                container.innerHTML = `<div class="col-span-2 text-center py-6 text-gray-500">Không tìm thấy bài viết phù hợp.</div>`;
+                return;
+            }
+
+            items.forEach(news => {
+                const card = `
+                    <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                        <div>
+                            <div class="relative">
+                                <img src="${news.img}" alt="${news.title}" class="w-full h-40 object-cover">
+                                <span class="absolute top-2 left-2 bg-gov-red text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">
+                                    ${news.category}
+                                </span>
+                            </div>
+                            <div class="p-3">
+                                <span class="text-[10px] text-gray-400 block mb-1"><i class="far fa-calendar-alt mr-1"></i> ${news.date}</span>
+                                <h3 onclick="openNewsModal(${news.id})" class="font-bold text-gray-800 dark:text-gray-100 text-xs sm:text-sm line-clamp-2 hover:text-gov-red dark:hover:text-yellow-400 cursor-pointer transition">
+                                    ${news.title}
+                                </h3>
+                                <p class="text-xs text-gray-600 dark:text-gray-300 mt-1.5 line-clamp-2">
+                                    ${news.summary}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="px-3 pb-3">
+                            <button onclick="openNewsModal(${news.id})" class="text-xs font-bold text-gov-blue dark:text-blue-400 hover:underline flex items-center">
+                                Xem chi tiết <i class="fas fa-arrow-right text-[10px] ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        }
+
+        // Carousel Logic
+        function showSlide(index) {
+            const slides = document.querySelectorAll('.carousel-slide');
+            if(slides.length === 0) return;
+            slides.forEach((slide, idx) => {
+                slide.style.opacity = idx === index ? '1' : '0';
+            });
+        }
+        function nextSlide() {
+            const slides = document.querySelectorAll('.carousel-slide');
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+        function prevSlide() {
+            const slides = document.querySelectorAll('.carousel-slide');
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        // Modal Controls
+        function openModal(title, bodyHtml) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-body').innerHTML = bodyHtml;
+            document.getElementById('modal-overlay').classList.remove('hidden');
+        }
+
+        function openNewsModal(id) {
+            const news = newsData.find(n => n.id === id);
+            if(news) {
+                const html = `
+                    <div class="space-y-3">
+                        <span class="text-xs font-bold text-gov-red dark:text-yellow-400 bg-red-50 dark:bg-gray-700 px-2 py-1 rounded">
+                            ${news.category} | Ngày: ${news.date}
+                        </span>
+                        <img src="${news.img}" class="w-full h-52 object-cover rounded-lg my-2">
+                        <p class="font-bold text-gray-800 dark:text-gray-100">${news.summary}</p>
+                        <p class="text-gray-600 dark:text-gray-300 leading-relaxed text-justify">${news.content}</p>
+                    </div>
+                `;
+                openModal(news.title, html);
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('modal-overlay').classList.add('hidden');
+        }
+
+        // Search Filter
+        function handleSearch() {
+            const query = document.getElementById('search-input').value.toLowerCase().trim();
+            if(!query) {
+                renderNews(newsData);
+                return;
+            }
+            const filtered = newsData.filter(n => 
+                n.title.toLowerCase().includes(query) || 
+                n.summary.toLowerCase().includes(query) ||
+                n.category.toLowerCase().includes(query)
+            );
+            renderNews(filtered);
+            scrollToSection('tin-tuc');
+        }
+
+        // Accessibility: Font Resizer
+        function changeFontSize(delta) {
+            fontSizeLevel = Math.max(-1, Math.min(2, fontSizeLevel + delta));
+            const body = document.getElementById('body-content');
+            if(fontSizeLevel === -1) body.style.fontSize = '14px';
+            else if(fontSizeLevel === 0) body.style.fontSize = '16px';
+            else if(fontSizeLevel === 1) body.style.fontSize = '18px';
+            else if(fontSizeLevel === 2) body.style.fontSize = '20px';
+        }
+
+        function resetFontSize() {
+            fontSizeLevel = 0;
+            document.getElementById('body-content').style.fontSize = '16px';
+        }
+
+        // Dark Mode Toggle
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            if(html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                icon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                icon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Feedback System with LocalStorage
+        function submitFeedback(e) {
+            e.preventDefault();
+            const name = document.getElementById('fb-name').value.trim();
+            const phone = document.getElementById('fb-phone').value.trim();
+            const topic = document.getElementById('fb-topic').value;
+            const content = document.getElementById('fb-content').value.trim();
+
+            if(!name || !phone || !content) return;
+
+            const feedbackItem = {
+                id: Date.now(),
+                name,
+                phone,
+                topic,
+                content,
+                date: new Date().toLocaleDateString('vi-VN')
+            };
+
+            const existing = JSON.parse(localStorage.getItem('tao_duong_feedbacks') || '[]');
+            existing.unshift(feedbackItem);
+            localStorage.setItem('tao_duong_feedbacks', JSON.stringify(existing));
+
+            openModal('Gửi Phản Ánh Thành Công', `
+                <p>Cảm ơn ông/bà <strong>${name}</strong> đã gửi ý kiến phản ánh.</p>
+                <p class="mt-2">Ban Quản Lý Thôn Tảo Dương & UBND Xã Dân Hòa đã tiếp nhận thông tin và sẽ kiểm tra xử lý trong thời gian sớm nhất.</p>
+            `);
+
+            document.getElementById('feedback-form').reset();
+            renderPublicFeedback();
+        }
+
+        function renderPublicFeedback() {
+            const listEl = document.getElementById('public-feedback-list');
+            if(!listEl) return;
+
+            const items = JSON.parse(localStorage.getItem('tao_duong_feedbacks') || '[]');
+            if(items.length === 0) {
+                listEl.innerHTML = `<p class="text-gray-400 italic text-[11px]">Chưa có phản ánh nào gần đây.</p>`;
+                return;
+            }
+
+            listEl.innerHTML = items.slice(0, 5).map(item => `
+                <div class="p-2 bg-white dark:bg-gray-700 rounded border border-gray-200 dark:border-gray-600">
+                    <div class="flex justify-between items-center text-[10px] text-gray-400">
+                        <span class="font-bold text-gov-blue dark:text-blue-300">${item.name}</span>
+                        <span>${item.date}</span>
+                    </div>
+                    <span class="text-[10px] font-semibold bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-1.5 py-0.5 rounded mt-1 inline-block">
+                        ${item.topic}
+                    </span>
+                    <p class="text-[11px] text-gray-600 dark:text-gray-300 mt-1 line-clamp-2">${item.content}</p>
+                </div>
+            `).join('');
+        }
+
+        // Scroll Helper
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if(el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Page Init
+        window.onload = function() {
+            updateClock();
+            setInterval(updateClock, 1000);
+
+            renderNews(newsData);
+            renderPublicFeedback();
+
+            // Mobile menu listener
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mainNav = document.getElementById('main-nav');
+            if(mobileBtn && mainNav) {
+                mobileBtn.addEventListener('click', () => {
+                    mainNav.classList.toggle('hidden');
+                });
+            }
+
+            // Carousel auto slide
+            setInterval(nextSlide, 5000);
+
+            // Restore theme
+            if(localStorage.getItem('theme') === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.getElementById('theme-icon').className = 'fas fa-sun';
+            }
+        };
+    </script>
+</body>
+</html>
